@@ -5,7 +5,7 @@ WITH CTE_Players AS
     SELECT
         PlayerID,
         Player AS PlayerName,
-        RIGHT(Nation, 3) AS Nationality,
+        Nation AS Nationality,
         Pos AS Position,
         Age,
         Born AS BirthYear,

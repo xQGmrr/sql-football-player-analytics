@@ -292,8 +292,153 @@ UPDATE player_data_staging
 SET Squad = REPLACE(Squad, 'AtlÃ©tico Madrid', 'Atlético Madrid')
 WHERE Squad = 'AtlÃ©tico Madrid';
 
+---- 4- Standrize Players Position ----
+UPDATE player_data_staging
+SET Pos = 'MF'
+WHERE Pos LIKE 'MF%';
+
+UPDATE player_data_staging
+SET Pos = 'DF'
+WHERE Pos LIKE 'DF%';
+
+UPDATE player_data_staging
+SET Pos = 'FW'
+WHERE Pos LIKE 'FW%';
+
+---- 5- Standrize Players Nations ----
+
+----- 5.A Creating A mapping table -----
+CREATE TABLE country_mapping (
+    raw_country NVARCHAR(20) PRIMARY KEY,
+    standard_country NVARCHAR(100)
+);
+
+----- 5.B Inserting The values into country_mapping table -----
+INSERT INTO country_mapping (raw_country, standard_country)
+VALUES
+('ch SUI', 'Switzerland'),
+('at AUT', 'Austria'),
+('ee EST', 'Estonia'),
+('me MNE', 'Montenegro'),
+('es ESP', 'Spain'),
+('ht HAI', 'Haiti'),
+('ie IRL', 'Ireland'),
+('nl NED', 'Netherlands'),
+('gm GAM', 'Gambia'),
+('tg TOG', 'Togo'),
+('pt POR', 'Portugal'),
+('fi FIN', 'Finland'),
+('ge GEO', 'Georgia'),
+('gr GRE', 'Greece'),
+('fo FRO', 'Faroe Islands'),
+('tz TAN', 'Tanzania'),
+('sk SVK', 'Slovakia'),
+('th THA', 'Thailand'),
+('am ARM', 'Armenia'),
+('my MAS', 'Malaysia'),
+('jo JOR', 'Jordan'),
+('cg CGO', 'Congo'),
+('tt TRI', 'Trinidad and Tobago'),
+('ru RUS', 'Russia'),
+('bf BFA', 'Burkina Faso'),
+('hn HON', 'Honduras'),
+('pl POL', 'Poland'),
+('cd COD', 'DR Congo'),
+('au AUS', 'Australia'),
+('ng NGA', 'Nigeria'),
+('ml MLI', 'Mali'),
+('be BEL', 'Belgium'),
+('pe PER', 'Peru'),
+('cl CHI', 'Chile'),
+('il ISR', 'Israel'),
+('no NOR', 'Norway'),
+('py PAR', 'Paraguay'),
+('se SWE', 'Sweden'),
+('kr KOR', 'South Korea'),
+('co COL', 'Colombia'),
+('cv CPV', 'Cape Verde'),
+('ly LBY', 'Libya'),
+('de GER', 'Germany'),
+('nz NZL', 'New Zealand'),
+('mz MOZ', 'Mozambique'),
+('cm CMR', 'Cameroon'),
+('mx MEX', 'Mexico'),
+('ar ARG', 'Argentina'),
+('hu HUN', 'Hungary'),
+('gn GUI', 'Guinea'),
+('cf CTA', 'Central African Republic'),
+('jm JAM', 'Jamaica'),
+('hr CRO', 'Croatia'),
+('mr MTN', 'Mauritania'),
+('is ISL', 'Iceland'),
+('fr FRA', 'France'),
+('lu LUX', 'Luxembourg'),
+('wls WAL', 'Wales'),
+('za RSA', 'South Africa'),
+('ro ROU', 'Romania'),
+('ec ECU', 'Ecuador'),
+('dk DEN', 'Denmark'),
+('cz CZE', 'Czech Republic'),
+('sa KSA', 'Saudi Arabia'),
+('ve VEN', 'Venezuela'),
+('ne NIG', 'Niger'),
+('id IDN', 'Indonesia'),
+('gw GNB', 'Guinea-Bissau'),
+('tn TUN', 'Tunisia'),
+('do DOM', 'Dominican Republic'),
+('bi BDI', 'Burundi'),
+('bb BRB', 'Barbados'),
+('us USA', 'United States'),
+('uz UZB', 'Uzbekistan'),
+('gp GLP', 'Guadeloupe'),
+('gh GHA', 'Ghana'),
+('zw ZIM', 'Zimbabwe'),
+('xk KVX', 'Kosovo'),
+('ao ANG', 'Angola'),
+('uy URU', 'Uruguay'),
+('lt LTU', 'Lithuania'),
+('gq EQG', 'Equatorial Guinea'),
+('km COM', 'Comoros'),
+('tr TUR', 'Turkey'),
+('ke KEN', 'Kenya'),
+('bj BEN', 'Benin'),
+('ma MAR', 'Morocco'),
+('zm ZAM', 'Zambia'),
+('si SVN', 'Slovenia'),
+('eng ENG', 'England'),
+('sct SCO', 'Scotland'),
+('ga GAB', 'Gabon'),
+('eg EGY', 'Egypt'),
+('ci CIV', 'Ivory Coast'),
+('lv LVA', 'Latvia'),
+('mg MAD', 'Madagascar'),
+('cy CYP', 'Cyprus'),
+('mk MKD', 'North Macedonia'),
+('dz ALG', 'Algeria'),
+('rs SRB', 'Serbia'),
+('sn SEN', 'Senegal'),
+('pa PAN', 'Panama'),
+('nir NIR', 'Northern Ireland'),
+('sl SLE', 'Sierra Leone'),
+('ua UKR', 'Ukraine'),
+('jp JPN', 'Japan'),
+('bg BUL', 'Bulgaria'),
+('ba BIH', 'Bosnia and Herzegovina'),
+('it ITA', 'Italy'),
+('br BRA', 'Brazil'),
+('al ALB', 'Albania'),
+('ca CAN', 'Canada'),
+('sr SUR', 'Suriname');
+
+----- 5.C Updating Nations in player_data_staging table -----
+UPDATE p
+SET p.Nation = m.standard_country
+FROM player_data_staging AS p
+INNER JOIN country_mapping AS m
+    ON LTRIM(RTRIM(p.Nation)) = m.raw_country;
 
 
+SELECT DISTINCT Nation FROM player_data_staging
 ----- Creating PlayerID Coulmn -----
 ALTER TABLE player_data_staging
 ADD PlayerID INT;
