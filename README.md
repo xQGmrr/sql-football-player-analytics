@@ -2,102 +2,186 @@
 
 ## 📌 Project Overview
 
-This project focuses on transforming raw football player statistics into a **clean, structured, analytics-ready SQL database**.
+This project is an end-to-end **SQL Server football analytics project** built using player statistics from the **2025/26 football season**.
 
-The project uses SQL Server to perform the complete data preparation process, including:
+The project demonstrates how raw football data can be transformed into a structured analytical database through:
 
-- Creating a staging table from the raw dataset
-- Identifying potential duplicate player records
-- Handling empty values
-- Removing irrelevant records and columns
-- Converting columns to appropriate data types
-- Cleaning corrupted player names caused by encoding issues
-- Standardizing competition and club names
-- Creating unique player identifiers
-- Designing a dimensional model using **Dimension and Fact Views**
+* Data Cleaning
+* Data Standardization
+* Data Quality Validation
+* Dimensional Modeling
+* Fact and Dimension Views
+* Exploratory Data Analysis
+* Magnitude Analysis
+* Ranking Analysis
+* Part-to-Whole Analysis
+* Player Segmentation
+* Business Insights
 
-The final structure is designed to support the next phase of the project: **Football Data Analysis**.
+The project is designed to demonstrate practical **SQL Data Analyst skills**, from raw data preparation to analytical insights.
 
 ---
 
 # 🎯 Project Objectives
 
-The main objectives of this phase are to:
+The main objectives of this project are to:
 
-1. Prepare raw football statistics for analysis.
-2. Improve data quality and consistency.
-3. Remove irrelevant goalkeeper-specific statistics and records.
-4. Standardize player, club, and competition information.
-5. Create a unique `PlayerID` for each player.
-6. Transform the cleaned dataset into a dimensional model.
-7. Build reusable SQL views for analytical queries.
+1. Clean and standardize raw football player data.
+2. Handle missing and inconsistent values.
+3. Remove irrelevant goalkeeper-specific data from the analysis.
+4. Standardize player names, clubs, competitions, positions, and nationalities.
+5. Create a reusable `PlayerID` for player-level analysis.
+6. Build a simple dimensional model using dimension and fact views.
+7. Explore the structure and characteristics of the dataset.
+8. Analyze player statistics across:
 
----
-
-# 🗂️ Dataset
-
-The project uses football player statistics for the **2025/2026 season**.
-
-The raw dataset contains information such as:
-
-- Player
-- Nation
-- Position
-- Squad
-- Competition
-- Age
-- Birth Year
-- Matches Played
-- Starts
-- Minutes
-- Goals
-- Assists
-- Shots
-- Shots on Target
-- Tackles
-- Interceptions
-- Cards
-- Fouls
-- And other performance statistics
+   * Competitions
+   * Countries
+   * Clubs
+   * Positions
+   * Ages
+9. Identify top-performing players and clubs.
+10. Measure the contribution of competitions, players, and positions.
+11. Segment players according to age groups.
+12. Generate analytical outputs that can support football performance analysis.
 
 ---
 
-# 🏗️ Project Structure
+# 📊 Dataset
 
-```text
-SQL-Football-Analytics/
-│
-├── 1-Data Cleaning.sql
-│
-├── 2-Creating Dims and Fact Views.sql
-│
-└── README.md
+### Source
+
+The project uses the table:
+
+```sql
+[players_data_light-2025_2026]
 ```
 
-> The project will be expanded with additional analysis scripts as the analysis phase is completed.
+The dataset contains football player statistics for the **2025/26 season**.
+
+Important fields include:
+
+| Column | Description                |
+| ------ | -------------------------- |
+| Player | Player name                |
+| Nation | Player nationality         |
+| Pos    | Playing position           |
+| Squad  | Club                       |
+| Comp   | Competition                |
+| Age    | Player age                 |
+| Born   | Birth year                 |
+| MP     | Matches played             |
+| Starts | Matches started            |
+| Min    | Minutes played             |
+| Gls    | Goals                      |
+| Ast    | Assists                    |
+| G+A    | Goals + Assists            |
+| G-PK   | Non-penalty goals          |
+| PK     | Penalty goals              |
+| PKatt  | Penalty attempts           |
+| CrdY   | Yellow cards               |
+| CrdR   | Red cards                  |
+| Sh     | Shots                      |
+| SoT    | Shots on target            |
+| SoT%   | Shots on target percentage |
+| Crs    | Crosses                    |
+| TklW   | Tackles won                |
+| Int    | Interceptions              |
+| Fld    | Fouls drawn                |
+| Fls    | Fouls committed            |
+| OG     | Own goals                  |
 
 ---
 
 # 🛠️ Tools & Technologies
 
-- **SQL Server**
-- **T-SQL**
-- Window Functions
-- CTEs
-- Views
-- Data Cleaning
-- Dimensional Modeling
-- Data Transformation
+* **SQL Server**
+* **SQL Server Management Studio (SSMS)**
+* SQL
+* Window Functions
+* CTEs
+* Aggregate Functions
+* CASE Expressions
+* JOINs
+* Views
+* Data Cleaning
+* Data Standardization
+* Dimensional Modeling
 
 ---
 
-# 🔄 Phase 1 — Data Preparation
+# 🗂️ Project Structure
 
-## 1. Data Cleaning
+```text
+sql-football-player-analytics/
+│
+├── 1-Data Cleaning.sql
+├── 2-Data Modeling.sql
+│
+├── 3-Explore_the_database.sql
+├── 4-Magnitude_analysis.sql
+├── 5-Ranking_analysis.sql
+├── 6-Part_to_whole_analysis.sql
+├── 7-Segmentation_analysis.sql
+│
+└── README.md
+```
 
-### Creating the Staging Table
+---
 
-The raw football dataset is copied into a dedicated staging table so that the original dataset remains unchanged.
+# 🔄 Project Workflow
+
+```text
+Raw Football Dataset
+        │
+        ▼
+Data Cleaning
+        │
+        ├── Duplicate Detection
+        ├── Missing Value Handling
+        ├── Remove Goalkeepers
+        ├── Remove Unwanted Columns
+        ├── Data Type Conversion
+        └── Data Standardization
+        │
+        ▼
+player_data_staging
+        │
+        ├── Player Standardization
+        ├── Competition Standardization
+        ├── Club Standardization
+        ├── Position Standardization
+        ├── Country Mapping
+        └── PlayerID Creation
+        │
+        ▼
+Dimensional Modeling
+        │
+        ├── dim_players
+        ├── dim_clubs
+        ├── dim_competitions
+        └── fact_stats
+        │
+        ▼
+SQL Analysis
+        │
+        ├── Exploration
+        ├── Magnitude Analysis
+        ├── Ranking Analysis
+        ├── Part-to-Whole Analysis
+        └── Segmentation Analysis
+        │
+        ▼
+Business Insights
+```
+
+---
+
+# 1️⃣ Data Cleaning
+
+## Creating the Staging Table
+
+The raw dataset is copied into a staging table so that all cleaning operations can be performed without modifying the original source.
 
 ```sql
 SELECT *
@@ -105,47 +189,40 @@ INTO player_data_staging
 FROM [players_data_light-2025_2026];
 ```
 
-The `player_data_staging` table becomes the main table used throughout the cleaning process.
-
 ---
 
-## 2. Checking for Duplicates
+## Duplicate Detection
 
-Potential duplicate records are identified using `ROW_NUMBER()`.
+Potential duplicate records are identified using:
+
+```sql
+ROW_NUMBER() OVER(
+    PARTITION BY Player,Nation,Pos,Squad,Comp,Age,Born
+    ORDER BY Rk
+)
+```
+
+Example:
 
 ```sql
 SELECT *,
     ROW_NUMBER() OVER(
-        PARTITION BY Player,
-                     Nation,
-                     Pos,
-                     Squad,
-                     Comp,
-                     Age,
-                     Born
+        PARTITION BY Player,Nation,Pos,Squad,Comp,Age,Born
         ORDER BY Rk
     ) AS Checking_Duplicates
 FROM player_data_staging
 ORDER BY Rk;
 ```
 
-### Why?
-
-A player can appear multiple times because of differences in competitions, clubs, or records. Before building the analytical model, duplicate patterns need to be identified.
-
-### SQL Techniques
-
-- `ROW_NUMBER()`
-- `PARTITION BY`
-- `ORDER BY`
+This allows duplicate records to be identified without immediately deleting them.
 
 ---
 
-# 3. Handling Empty Values
+## Handling Empty Values
 
-Some numerical columns contained empty strings instead of valid numerical values.
+Several statistical columns contained empty strings.
 
-These values were replaced with `0.0`.
+They were converted to `0.0`:
 
 ```sql
 UPDATE player_data_staging
@@ -161,68 +238,34 @@ SET [G SoT] = '0.0'
 WHERE [G SoT] = '';
 ```
 
-This preparation is important because these columns are later converted from text-based fields into numerical data types.
-
 ---
 
-# 4. Removing Unwanted Rows
+## Removing Goalkeepers
 
-Goalkeepers were removed from the dataset because the project focuses on outfield-player performance.
+Goalkeepers were removed because the project focuses on outfield player statistics.
 
 ```sql
 DELETE FROM player_data_staging
 WHERE Pos = 'GK';
 ```
 
-This prevents goalkeeper-specific statistics from affecting the analysis of outfield players.
-
----
-
-# 5. Removing Unwanted Columns
-
-Goalkeeper-specific and unnecessary columns were removed.
+Goalkeeper-specific columns were also removed:
 
 ```sql
-ALTER TABLE player_data_staging 
-DROP COLUMN 
-    GA,
-    GA90,
-    SoTA,
-    Saves,
-    [Save%],
-    W,
-    D,
-    L,
-    CS,
-    [CS%],
-    PKatt_stats_keeper,
-    PKA,
-    PKsv,
-    PKm,
-    PK_stats_shooting,
-    PKatt_stats_shooting,
-    CrdY_stats_misc,
-    CrdR_stats_misc;
+ALTER TABLE player_data_staging
+DROP COLUMN GA,GA90,SoTA,Saves,[Save%],W,D,L,CS,[CS%],
+PKatt_stats_keeper,PKA,PKsv,PKm,
+PK_stats_shooting,PKatt_stats_shooting,
+CrdY_stats_misc,CrdR_stats_misc;
 ```
-
-### Why?
-
-Removing irrelevant columns:
-
-- Simplifies the dataset
-- Reduces unnecessary data
-- Makes the analytical model easier to understand
-- Keeps the fact table focused on relevant outfield-player statistics
 
 ---
 
-# 6. Changing Data Types
+# 🔢 Data Type Conversion
 
-The raw dataset initially contained many columns as text-based values.
+Because the source data was imported from CSV, several columns initially required data type conversion.
 
-The columns were converted to appropriate numerical data types.
-
-For example:
+Examples:
 
 ```sql
 ALTER TABLE player_data_staging
@@ -245,58 +288,104 @@ ALTER COLUMN [Min] INT;
 
 ALTER TABLE player_data_staging
 ALTER COLUMN [90s] FLOAT;
+```
 
+Performance metrics were also converted:
+
+```sql
 ALTER TABLE player_data_staging
 ALTER COLUMN Gls INT;
 
 ALTER TABLE player_data_staging
 ALTER COLUMN Ast INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [G+A] INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [G-PK] INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN PK INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN PKatt INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN CrdY INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN CrdR INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [G+A-PK] FLOAT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN SH INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN SoT INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [SoT%] FLOAT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [Sh 90] FLOAT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [SoT 90] FLOAT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [G Sh] FLOAT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [G SoT] FLOAT;
 ```
 
-Other performance columns were also converted to suitable numerical types, including:
+Additional defensive and discipline metrics were converted:
 
-- `G+A`
-- `G-PK`
-- `PK`
-- `PKatt`
-- `CrdY`
-- `CrdR`
-- `G+A-PK`
-- `SH`
-- `SoT`
-- `SoT%`
-- `Sh 90`
-- `SoT 90`
-- `G Sh`
-- `G SoT`
-- `Crs`
-- `TklW`
-- `Int`
-- `Fld`
-- `2CrdY`
-- `Fls`
-- `OG`
+```sql
+ALTER TABLE player_data_staging
+ALTER COLUMN Crs INT;
 
-### Main SQL Technique
+ALTER TABLE player_data_staging
+ALTER COLUMN TklW INT;
 
-`ALTER COLUMN` was used to ensure numerical calculations can be performed correctly during the analysis phase.
+ALTER TABLE player_data_staging
+ALTER COLUMN [Int] INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN Fld INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN [2CrdY] INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN Fls INT;
+
+ALTER TABLE player_data_staging
+ALTER COLUMN OG INT;
+```
 
 ---
 
-# 7. Standardizing Player Names
+# 🌍 Data Standardization
 
-The source data contained several character-encoding problems.
+## Player Names
 
-For example, names could appear with corrupted characters such as:
+The raw dataset contained encoding problems such as:
 
 ```text
 Ã©
-Ã±
 Å¾
 Ä‡
+í¡
+í³
 ```
 
-These values were corrected using `REPLACE()`.
+These were corrected using `REPLACE()`.
+
+Example:
 
 ```sql
 UPDATE player_data_staging
@@ -304,32 +393,9 @@ SET Player = REPLACE(Player, 'Ã©', 'é')
 WHERE Player LIKE '%Ã©%';
 ```
 
-Additional replacements were performed for other corrupted characters.
+Other encoding corrections were applied similarly.
 
-```sql
-UPDATE player_data_staging
-SET Player = REPLACE(Player, 'AntaÃ±Ã³n', 'Antañón')
-WHERE Player LIKE '%AntaÃ±Ã³n%';
-```
-
-Other encoding corrections were applied to characters such as:
-
-- `ž`
-- `ć`
-- `á`
-- `í`
-- `ó`
-- `ú`
-- `ñ`
-- `é`
-- `è`
-- `ë`
-
----
-
-# 8. Finding Remaining Encoding Problems
-
-After the cleaning process, suspicious player names were searched for.
+A validation query was then used to find suspicious remaining values:
 
 ```sql
 SELECT DISTINCT Player
@@ -343,74 +409,160 @@ WHERE Player LIKE '%Ã%'
    OR Player LIKE '%?%';
 ```
 
-This provides a validation step to identify records that may still require manual investigation.
-
 ---
 
-# 9. Standardizing Competition Names
+# 🏆 Competition Standardization
 
-Competition names were standardized by removing country prefixes.
+Competition names were standardized.
 
 For example:
 
 ```text
 eng Premier League → Premier League
-es La Liga → La Liga
-fr Ligue 1 → Ligue 1
-it Serie A → Serie A
-de Bundesliga → Bundesliga
+es La Liga         → La Liga
+fr Ligue 1         → Ligue 1
+it Serie A         → Serie A
+de Bundesliga      → Bundesliga
+```
+
+SQL:
+
+```sql
+UPDATE player_data_staging
+SET Comp = REPLACE(Comp, 'eng Premier League', 'Premier League')
+WHERE Comp = 'eng Premier League';
+
+UPDATE player_data_staging
+SET Comp = REPLACE(Comp, 'es La Liga', 'La Liga')
+WHERE Comp = 'es La Liga';
+
+UPDATE player_data_staging
+SET Comp = REPLACE(Comp, 'fr Ligue 1', 'Ligue 1')
+WHERE Comp = 'fr Ligue 1';
+
+UPDATE player_data_staging
+SET Comp = REPLACE(Comp, 'it Serie A', 'Serie A')
+WHERE Comp = 'it Serie A';
+
+UPDATE player_data_staging
+SET Comp = REPLACE(Comp, 'de Bundesliga', 'Bundesliga')
+WHERE Comp = 'de Bundesliga';
+```
+
+---
+
+# 🏟️ Club Standardization
+
+Examples:
+
+```text
+KÃ¶ln            → Köln
+AlavÃ©s          → Alavés
+AtlÃ©tico Madrid → Atlético Madrid
 ```
 
 Example:
 
 ```sql
 UPDATE player_data_staging
-SET Comp = REPLACE(Comp, 'eng Premier League', 'Premier League')
-WHERE Comp = 'eng Premier League';
+SET Squad = REPLACE(Squad, 'KÃ¶ln', 'Köln')
+WHERE Squad = 'KÃ¶ln';
 ```
-
-The same approach was applied to the other competitions.
-
-### Benefit
-
-Standardized competition names make grouping and filtering much easier during analysis.
 
 ---
 
-# 10. Standardizing Club Names
+# ⚽ Position Standardization
 
-Club names affected by encoding problems were also corrected.
+Different position combinations were simplified into three main groups:
+
+* MF
+* DF
+* FW
 
 ```sql
 UPDATE player_data_staging
-SET Squad = REPLACE(Squad, 'KÃ¶ln', 'Köln')
-WHERE Squad = 'KÃ¶ln';
+SET Pos = 'MF'
+WHERE Pos LIKE 'MF%';
 
 UPDATE player_data_staging
-SET Squad = REPLACE(Squad, 'AlavÃ©s', 'Alavés')
-WHERE Squad = 'AlavÃ©s';
+SET Pos = 'DF'
+WHERE Pos LIKE 'DF%';
 
 UPDATE player_data_staging
-SET Squad = REPLACE(Squad, 'AtlÃ©tico Madrid', 'Atlético Madrid')
-WHERE Squad = 'AtlÃ©tico Madrid';
+SET Pos = 'FW'
+WHERE Pos LIKE 'FW%';
 ```
 
-This ensures that clubs are represented consistently.
+This makes position-level analysis easier.
 
 ---
 
-# 11. Creating PlayerID
+# 🌎 Country Mapping
 
-A unique player identifier was created to make relationships between player information and performance statistics easier.
+A dedicated mapping table was created to transform raw country codes into standardized country names.
 
-First, the column was added:
+```sql
+CREATE TABLE country_mapping (
+    raw_country NVARCHAR(20) PRIMARY KEY,
+    standard_country NVARCHAR(100)
+);
+```
+
+Example mappings:
+
+```sql
+INSERT INTO country_mapping
+(raw_country, standard_country)
+VALUES
+('eg EGY', 'Egypt'),
+('eng ENG', 'England'),
+('dz ALG', 'Algeria'),
+('fr FRA', 'France'),
+('br BRA', 'Brazil'),
+('ar ARG', 'Argentina'),
+('de GER', 'Germany'),
+('it ITA', 'Italy');
+```
+
+The complete mapping table contains the country mappings required by the dataset.
+
+The staging table is then updated through a join:
+
+```sql
+UPDATE p
+SET p.Nation = m.standard_country
+FROM player_data_staging AS p
+INNER JOIN country_mapping AS m
+    ON LTRIM(RTRIM(p.Nation)) = m.raw_country;
+```
+
+This transforms values such as:
+
+```text
+eg EGY → Egypt
+eng ENG → England
+dz ALG → Algeria
+```
+
+Validation:
+
+```sql
+SELECT DISTINCT Nation
+FROM player_data_staging;
+```
+
+---
+
+# 🆔 Creating PlayerID
+
+A `PlayerID` was added to uniquely identify players across their different club records.
 
 ```sql
 ALTER TABLE player_data_staging
 ADD PlayerID INT;
 ```
 
-Then `DENSE_RANK()` was used to generate an ID based on the standardized player name.
+`DENSE_RANK()` was used to generate the IDs:
 
 ```sql
 WITH CTE_Player_ID AS
@@ -427,52 +579,38 @@ JOIN CTE_Player_ID c
     ON p.Player = c.Player;
 ```
 
-### Why `DENSE_RANK()`?
-
-The same player name receives the same `PlayerID` across multiple records.
-
-For example:
-
-```text
-Player             PlayerID
----------------------------
-Player A              1
-Player A              1
-Player B              2
-Player C              3
-Player C              3
-```
-
-This allows multiple performance records belonging to the same player to be aggregated correctly.
+This allows multiple records for the same player to share the same `PlayerID`.
 
 ---
 
-# 🏛️ Phase 2 — Dimensional Modeling
+# 2️⃣ Dimensional Modeling
 
-After cleaning the staging table, the data was separated into **dimension views** and a **fact view**.
-
-The resulting structure follows a simplified **Star Schema**.
+After cleaning, the staging table was transformed into a simple analytical model consisting of:
 
 ```text
-                    dim_players
-                         │
-                         │
-                         ▼
-dim_clubs ────────── fact_stats ────────── dim_competitions
+                  dim_players
+                       │
+                       │
+                       ▼
+dim_clubs ───────► fact_stats ◄────── dim_competitions
 ```
 
-The model consists of:
+## Dimension Views
 
-- `dim_players`
-- `dim_clubs`
-- `dim_competitions`
-- `fact_stats`
+### `dim_players`
 
----
+Contains player-level descriptive information:
 
-# 👤 dim_players
+```text
+PlayerID
+PlayerName
+Nationality
+Position
+Age
+BirthYear
+```
 
-The player dimension contains descriptive information about each player.
+Duplicate player records are removed using `ROW_NUMBER()`.
 
 ```sql
 CREATE OR ALTER VIEW dim_players AS
@@ -481,7 +619,7 @@ WITH CTE_Players AS
     SELECT
         PlayerID,
         Player AS PlayerName,
-        RIGHT(Nation, 3) AS Nationality,
+        Nation AS Nationality,
         Pos AS Position,
         Age,
         Born AS BirthYear,
@@ -505,34 +643,9 @@ FROM CTE_Players
 WHERE rn = 1;
 ```
 
-### Purpose
-
-`dim_players` provides one descriptive record per `PlayerID`.
-
-It contains:
-
-| Column | Description |
-|---|---|
-| `PlayerID` | Unique player identifier |
-| `PlayerName` | Player name |
-| `Nationality` | Player nationality |
-| `Position` | Playing position |
-| `Age` | Player age |
-| `BirthYear` | Year of birth |
-
-### SQL Techniques
-
-- CTE
-- `ROW_NUMBER()`
-- `PARTITION BY`
-- `RIGHT()`
-- View creation
-
 ---
 
-# 🏟️ dim_clubs
-
-A separate club dimension was created.
+## `dim_clubs`
 
 ```sql
 CREATE OR ALTER VIEW dim_clubs AS
@@ -546,23 +659,9 @@ FROM (
 ) AS c;
 ```
 
-Each unique club receives a `ClubID`.
-
-Example structure:
-
-| ClubID | Club |
-|---:|---|
-| 1 | Club A |
-| 2 | Club B |
-| 3 | Club C |
-
-This allows club information to be stored separately from player performance metrics.
-
 ---
 
-# 🏆 dim_competitions
-
-A competition dimension was created in the same way.
+## `dim_competitions`
 
 ```sql
 CREATE OR ALTER VIEW dim_competitions AS
@@ -576,15 +675,11 @@ FROM (
 ) AS c;
 ```
 
-Each unique competition receives a `CompID`.
-
-This provides a clean lookup table for competition information.
-
 ---
 
-# 📊 fact_stats
+# 📈 Fact View
 
-The `fact_stats` view contains the numerical football performance metrics.
+The `fact_stats` view stores measurable football performance metrics.
 
 ```sql
 CREATE OR ALTER VIEW fact_stats AS 
@@ -629,201 +724,818 @@ JOIN dim_competitions co
 
 ---
 
-# 📐 Fact Table Metrics
+# 3️⃣ Exploratory Analysis
 
-The fact view contains measurable performance metrics including:
+The first analysis phase explores the database structure and available dimensions.
 
-### Playing Time
-- Matches Played
-- Matches Started
-- Minutes Played
-- 90s Played
+## Database Structure
 
-### Attacking
-- Goals
-- Assists
-- Goal Contributions
-- Non-Penalty Goals
-- Penalty Goals
-- Penalty Attempts
-- Shots
-- Shots on Target
+```sql
+SELECT *
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'dim_players'
+   OR TABLE_NAME = 'dim_competitions'
+   OR TABLE_NAME = 'dim_clubs'
+   OR TABLE_NAME = 'fact_stats';
+```
 
-### Efficiency
-- Shots on Target %
-- Shots per 90
-- Shots on Target per 90
-- Goals per Shot
-- Goals per Shot on Target
+The dimensions were also explored using:
 
-### Defensive / Discipline
-- Tackles Won
-- Interceptions
-- Fouls Drawn
-- Fouls Committed
-- Yellow Cards
-- Red Cards
-- Second Yellow Cards
-- Own Goals
+```sql
+SELECT DISTINCT Nationality
+FROM dim_players;
 
----
+SELECT DISTINCT Position
+FROM dim_players;
 
-# 🔑 Key SQL Techniques Used
+SELECT DISTINCT Age
+FROM dim_players
+ORDER BY Age;
 
-| Technique | Purpose |
-|---|---|
-| `SELECT INTO` | Create staging table |
-| `UPDATE` | Clean and standardize values |
-| `DELETE` | Remove unwanted records |
-| `ALTER TABLE` | Modify table structure |
-| `ALTER COLUMN` | Convert data types |
-| `DROP COLUMN` | Remove unnecessary fields |
-| `REPLACE()` | Correct corrupted text |
-| `LIKE` | Detect suspicious values |
-| `DISTINCT` | Identify unique clubs/competitions |
-| `ROW_NUMBER()` | Detect duplicates and select one player record |
-| `DENSE_RANK()` | Generate consistent player IDs |
-| `CTE` | Organize transformation logic |
-| `CREATE OR ALTER VIEW` | Build reusable analytical views |
-| `JOIN` | Connect fact data to dimensions |
+SELECT DISTINCT BirthYear
+FROM dim_players
+ORDER BY BirthYear;
+```
+
+Competitions:
+
+```sql
+SELECT DISTINCT Competition
+FROM dim_competitions;
+```
+
+Clubs:
+
+```sql
+SELECT DISTINCT Club
+FROM dim_clubs;
+```
 
 ---
 
-# 🧠 Data Modeling Approach
+# 📊 Key Project Measures
 
-The project separates **descriptive attributes** from **measurable performance metrics**.
+The project calculates several high-level KPIs:
+
+* Total Players
+* Total Countries
+* Total Competitions
+* Total Clubs
+* Estimated Total Matches
+* Total Goals
+* Total Assists
+* Total Penalties
+* Total Yellow Cards
+* Total Red Cards
+* Own Goals
+
+Example:
+
+```sql
+SELECT 'Total Players' AS [Players_Stats],
+       COUNT(DISTINCT PlayerID) AS Report
+FROM dim_players
+
+UNION ALL
+
+SELECT 'Total Countries',
+       COUNT(DISTINCT Nationality)
+FROM dim_players
+
+UNION ALL
+
+SELECT 'Total Competitions',
+       COUNT(DISTINCT CompID)
+FROM dim_competitions
+
+UNION ALL
+
+SELECT 'Total Clubs',
+       COUNT(DISTINCT ClubID)
+FROM dim_clubs
+
+UNION ALL
+
+SELECT 'Total Goals',
+       SUM(Goals)
+FROM fact_stats
+
+UNION ALL
+
+SELECT 'Total Assists',
+       SUM(Assists)
+FROM fact_stats;
+```
+
+---
+
+# 4️⃣ Magnitude Analysis
+
+Magnitude analysis answers questions such as:
+
+> How large is each competition, country, position, age group, or club in terms of players and performance?
+
+---
+
+## Competition Analysis
+
+Metrics include:
+
+* Number of players
+* Number of countries
+* Number of clubs
+* Average age
+* Total goals
+* Total assists
+* Total rounds
+* Total penalties
+* Yellow cards
+* Red cards
+* Own goals
+* Estimated matches
+* Average goals per match
+* Average goals per player
+
+Example:
+
+```sql
+SELECT *,
+    (TotalClub / 2) * TotalRounds AS TotalMatchesByComp,
+    SUM((TotalClub / 2) * TotalRounds) OVER() AS TotalMatches,
+    ROUND(
+        CAST(TotalGoals AS FLOAT) /
+        ((TotalClub / 2) * TotalRounds),2
+    ) AS AverageGoalsPerMatch,
+    ROUND(
+        CAST(TotalGoals AS FLOAT) / PlayersCount,2
+    ) AS AverageGoalsForPlayer
+FROM
+(
+    SELECT
+        c.Competition,
+        COUNT(DISTINCT s.PlayerID) AS PlayersCount,
+        COUNT(DISTINCT p.Nationality) AS CountriesCount,
+        COUNT(DISTINCT s.ClubID) AS TotalClub,
+        ROUND(AVG(CAST(p.Age AS FLOAT)), 1) AS AverageAge,
+        SUM(Goals) AS TotalGoals,
+        SUM(Assists) AS TotalAssists,
+        MAX(MatchesPlayed) AS TotalRounds,
+        SUM(PenaltyAttempts) AS TotalPenalties,
+        SUM(YellowCards) AS TotalYellowCards,
+        SUM(RedCards) AS TotalRedCards,
+        SUM(OwnGoals) AS TotalOwnGoals
+    FROM fact_stats s
+    INNER JOIN dim_competitions c
+        ON s.CompID = c.CompID
+    INNER JOIN dim_players p
+        ON p.PlayerID = s.PlayerID
+    GROUP BY c.Competition
+)t
+ORDER BY TotalRounds DESC;
+```
+
+---
+
+## Country Analysis
+
+The project compares nationalities based on:
+
+* Players
+* Competitions
+* Clubs
+* Average age
+* Goals
+* Assists
+* Penalties
+* Cards
+* Goal contributions per player
+
+---
+
+## Position Analysis
+
+The project compares:
+
+```text
+MF
+DF
+FW
+```
+
+based on:
+
+* Players
+* Countries
+* Average age
+* Goals
+* Assists
+* Penalties
+* Yellow cards
+* Red cards
+* Own goals
+
+---
+
+## Age Analysis
+
+Age-level analysis evaluates:
+
+* Players
+* Countries
+* Clubs
+* Estimated matches
+* Goals
+* Assists
+* Penalties
+* Cards
+* Own goals
+
+---
+
+## Club Analysis
+
+Club-level analysis evaluates:
+
+* Players
+* Countries represented
+* Average age
+* Goals
+* Assists
+* Penalties
+* Cards
+* Own goals
+* Average goal contributions per player
+
+---
+
+# 5️⃣ Ranking Analysis
+
+Ranking analysis identifies the highest-performing players and clubs.
+
+---
+
+## 🥇 Top 10 Goal Scorers
+
+The ranking considers:
+
+1. Total goals — descending
+2. Matches played — ascending as a tie-breaker
+
+```sql
+DENSE_RANK() OVER(
+    ORDER BY
+        SUM(s.Goals) DESC,
+        SUM(s.MatchesPlayed) ASC
+) AS rn
+```
+
+The use of `SUM()` is important because a player may have statistics for multiple clubs.
+
+---
+
+## 🅰️ Top 10 Assist Providers
+
+The same ranking approach is applied to assists:
+
+```sql
+DENSE_RANK() OVER(
+    ORDER BY
+        SUM(s.Assists) DESC,
+        SUM(s.MatchesPlayed) ASC
+) AS rn
+```
+
+---
+
+## ⚡ Top 10 Goal Contributors
+
+Goal contributions are ranked using:
+
+```sql
+DENSE_RANK() OVER(
+    ORDER BY
+        SUM(s.GoalsContributions) DESC,
+        SUM(s.MatchesPlayed) ASC
+) AS rn
+```
+
+---
+
+## 🏟️ Top 10 Clubs by Goals
+
+Clubs are ranked according to total goals:
+
+```sql
+DENSE_RANK() OVER(
+    ORDER BY SUM(s.Goals) DESC
+) AS rn
+```
+
+This identifies the clubs with the highest total goal output.
+
+---
+
+# 6️⃣ Part-to-Whole Analysis
+
+Part-to-whole analysis answers:
+
+> How much does each component contribute to the overall total?
+
+---
+
+## Competition Goal Contribution
+
+The percentage of total goals scored in each competition is calculated using:
+
+```sql
+ROUND(
+    CAST(TotalGoalsByComp AS FLOAT)
+    / SUM(TotalGoalsByComp) OVER(),
+    3
+) * 100 AS GoalsPrc
+```
+
+This allows each competition's goal production to be compared with the overall dataset.
+
+---
+
+## Real Madrid Player Effect
+
+A detailed player-level analysis was performed for **Real Madrid**.
+
+The analysis evaluates:
+
+* Matches played
+* Matches started
+* Goals
+* Penalty attempts
+* Penalty goals
+* Assists
+* Goal contributions
+* Own goals
+* Yellow cards
+* Red cards
+
+### Penalty Contribution
+
+```sql
+CONCAT(
+    ROUND(
+        CAST(PenaltyAttempts AS FLOAT)
+        / SUM(PenaltyAttempts) OVER(),
+        2
+    ) * 100,
+    '%'
+) AS ShootingPenaltyPcr
+```
+
+### Player Effect
+
+```sql
+CONCAT(
+    ROUND(
+        CAST(GoalsContributions AS FLOAT)
+        / ClubGoalsCount,
+        2
+    ) * 100,
+    '%'
+) AS PlayerEffect
+```
+
+This provides a player-level view of contribution to the club's overall goal contributions.
+
+---
+
+# ⚽ Position Contribution
+
+The project also measures how much each position contributes to total goals.
+
+```sql
+SELECT
+    p.Position,
+    SUM(s.Goals) AS TotalGoals,
+    ROUND(
+        CAST(SUM(s.Goals) AS FLOAT)
+        / NULLIF(SUM(SUM(s.Goals)) OVER (), 0)
+        * 100,
+        2
+    ) AS GoalsPct
+FROM fact_stats s
+INNER JOIN dim_players p
+    ON p.PlayerID = s.PlayerID
+GROUP BY Position
+ORDER BY TotalGoals DESC;
+```
+
+The same methodology is applied to assists.
+
+```sql
+SELECT
+    p.Position,
+    SUM(s.Assists) AS TotalAssists,
+    ROUND(
+        CAST(SUM(s.Assists) AS FLOAT)
+        / NULLIF(SUM(SUM(s.Assists)) OVER (), 0)
+        * 100,
+        2
+    ) AS AssistPct
+FROM fact_stats s
+INNER JOIN dim_players p
+    ON p.PlayerID = s.PlayerID
+GROUP BY Position
+ORDER BY TotalAssists DESC;
+```
+
+---
+
+# 7️⃣ Segmentation Analysis
+
+The players are segmented into age groups:
+
+| Age   | Segment |
+| ----- | ------- |
+| < 21  | U21     |
+| 21–24 | 21-24   |
+| 25–28 | 25-28   |
+| 29–32 | 29-32   |
+| 33+   | 33+     |
+
+The segmentation is created using a `CASE` expression:
+
+```sql
+CASE
+    WHEN p.Age < 21 THEN 'U21'
+    WHEN p.Age BETWEEN 21 AND 24 THEN '21-24'
+    WHEN p.Age BETWEEN 25 AND 28 THEN '25-28'
+    WHEN p.Age BETWEEN 29 AND 32 THEN '29-32'
+    ELSE '33+'
+END AS AgeGroup
+```
+
+The final analysis calculates:
+
+* Players count
+* Countries count
+* Average matches
+* Total goals
+* Average goals
+* Penalties
+* Penalty goals
+* Assists
+* Average assists
+* Goal contributions
+* Average goal contributions
+* Own goals
+* Yellow cards
+* Red cards
+
+Example:
+
+```sql
+SELECT 
+    AgeGroup,
+    COUNT(DISTINCT PlayerID) AS PlayersCount,
+    COUNT(DISTINCT Nationality) AS CountriesCount,
+    ROUND(AVG(CAST(MatchesPlayed AS FLOAT)),2) AS AverageMatches,
+    SUM(Goals) AS GoalsCount,
+    ROUND(AVG(CAST(Goals AS FLOAT)),2) AS AverageGoals,
+    SUM(PenaltyAttempts) AS PenaltiesCount,
+    SUM(PenaltyGoals) AS PenaltiesGoalsCount,
+    SUM(Assists) AS AssistsCount,
+    ROUND(AVG(CAST(Assists AS FLOAT)),2) AS AverageAssists,
+    SUM(GoalsContributions) AS GoalsContributionsCount,
+    ROUND(
+        AVG(CAST(GoalsContributions AS FLOAT)),2
+    ) AS AverageGoalsContributions,
+    SUM(OwnGoals) AS OwnGoalsCount,
+    SUM(YellowCards) AS YellowCardsCount,
+    SUM(RedCards) AS RedCardsCount
+FROM CTE_Age_Group
+GROUP BY AgeGroup
+ORDER BY AgeGroup;
+```
+
+---
+
+# 🧠 Key SQL Techniques Demonstrated
+
+This project demonstrates a wide range of SQL Server techniques.
+
+### Data Cleaning
+
+* `UPDATE`
+* `DELETE`
+* `ALTER TABLE`
+* `DROP COLUMN`
+* `LTRIM()`
+* `RTRIM()`
+* `REPLACE()`
+* `LIKE`
+
+### Data Types
+
+* `INT`
+* `FLOAT`
+* `NVARCHAR`
+
+### Aggregation
+
+* `SUM()`
+* `AVG()`
+* `COUNT()`
+* `COUNT(DISTINCT)`
+
+### Window Functions
+
+* `ROW_NUMBER()`
+* `DENSE_RANK()`
+* `SUM() OVER()`
+
+### Query Organization
+
+* CTEs
+* Views
+* Subqueries
+
+### Conditional Logic
+
+* `CASE`
+* `NULLIF()`
+
+### Joins
+
+* `INNER JOIN`
+* `LEFT JOIN`
+* `RIGHT JOIN`
+
+### Analytical Techniques
+
+* Ranking
+* Part-to-whole analysis
+* Segmentation
+* Contribution analysis
+* KPI calculation
+* Aggregation across dimensions
+* Tie-breaking logic
+
+---
+
+# 📌 Business Questions Answered
+
+The project is designed to answer questions such as:
+
+### Competition
+
+* Which competitions contain the most players?
+* Which competitions have the largest number of clubs?
+* How many goals are produced by each competition?
+* What percentage of total goals comes from each competition?
+* What is the estimated number of matches in each competition?
+* What is the average number of goals per match?
+
+### Players
+
+* Who are the top goal scorers?
+* Who provides the most assists?
+* Who has the highest total goal contributions?
+* Which players contribute the most to their clubs?
+
+### Clubs
+
+* Which clubs have the highest total goals?
+* Which clubs have the largest player pools?
+* Which clubs have the highest average goal contribution per player?
+
+### Countries
+
+* Which nationalities have the most players?
+* Which countries are represented across the most clubs and competitions?
+* Which nationalities produce the highest total goals?
+
+### Positions
+
+* Which positions contribute the most goals?
+* Which positions contribute the most assists?
+* What percentage of total goals comes from each position?
+
+### Age
+
+* Which age groups contain the most players?
+* Which age groups produce the most goals?
+* How does average performance vary by age group?
+* How do goal contributions differ between younger and older players?
+
+---
+
+# 💡 Analytical Insights Framework
+
+The project is structured to move from **numbers → analysis → business/football meaning**.
+
+For example:
+
+```text
+Metric
+  ↓
+Comparison
+  ↓
+Identify Pattern
+  ↓
+Investigate Possible Reason
+  ↓
+Football Insight
+  ↓
+"So What?"
+```
+
+Examples of questions that can be investigated from the outputs:
+
+* Does a larger player population translate into greater goal production?
+* Are younger players contributing significantly to attacking output?
+* Which positions dominate goal contribution?
+* Are high-scoring clubs dependent on a small number of players?
+* Which competitions have higher goal productivity per match?
+* Which players have unusually high contribution relative to their playing time?
+
+---
+
+# 🧱 Data Modeling Approach
+
+The project follows a simplified **star-schema approach**.
 
 ### Dimensions
 
 ```text
 dim_players
-    ├── PlayerID
-    ├── PlayerName
-    ├── Nationality
-    ├── Position
-    ├── Age
-    └── BirthYear
-
 dim_clubs
-    ├── ClubID
-    └── Club
-
 dim_competitions
-    ├── CompID
-    └── Competition
 ```
 
 ### Fact
 
 ```text
 fact_stats
-    ├── PlayerID
-    ├── ClubID
-    ├── CompID
-    ├── MatchesPlayed
-    ├── MinutesPlayed
-    ├── Goals
-    ├── Assists
-    ├── Shots
-    ├── TacklesWon
-    └── ...
 ```
 
-This structure makes the database easier to query for analytical questions such as:
-
-- Which players scored the most goals?
-- Which clubs have the highest goal contributions?
-- How does player performance differ by competition?
-- Which positions generate the most goals?
-- Which players have the highest shooting efficiency?
-
-These questions will be addressed in the **Analysis Phase**.
-
----
-
-# 💼 Business Value
-
-Although this is a technical SQL project, the data model is designed around real football analytics use cases.
-
-The resulting structure can support:
-
-- Player performance analysis
-- Club performance comparison
-- Competition comparison
-- Scouting analysis
-- Player ranking
-- Attacking efficiency analysis
-- Defensive performance analysis
-- Recruitment decisions
-- Football performance dashboards
-
----
-
-# 📈 Analysis Phase
-
-**Status: Upcoming**
-
-The next phase will use the dimensional model to perform analytical queries and answer football-related business questions.
-
-Planned areas include:
-
-- Player rankings
-- Goal and assist analysis
-- Club comparisons
-- Competition comparisons
-- Position analysis
-- Player efficiency
-- Performance per 90 minutes
-- Advanced SQL analysis
-- Business insights and recommendations
-
-The README will be expanded with the analysis SQL, findings, and **"So What?" business interpretation** as this phase is completed.
-
----
-
-# 🎓 Skills Demonstrated
-
-This phase demonstrates practical experience in:
-
-- SQL Server
-- T-SQL
-- Data Cleaning
-- Data Quality Validation
-- Data Transformation
-- Data Standardization
-- Data Modeling
-- Star Schema Design
-- Dimension and Fact Modeling
-- Window Functions
-- CTEs
-- SQL Views
-- Data Type Management
-- Analytical Data Preparation
-
----
-
-# 🚀 Conclusion
-
-Phase 1 transformed the raw football player dataset into a structured, analytics-ready SQL model.
-
-The workflow progressed from:
+### Relationships
 
 ```text
-Raw Dataset
-     ↓
-Staging Table
-     ↓
-Data Cleaning
-     ↓
-Data Standardization
-     ↓
-PlayerID Creation
-     ↓
-Dimension Views
-     ↓
-Fact View
-     ↓
-Analytics-Ready Data Model
+dim_players
+     │
+     │ PlayerID
+     ▼
+fact_stats
+     ▲
+     │ ClubID
+     │
+dim_clubs
+
+fact_stats
+     ▲
+     │ CompID
+     │
+dim_competitions
 ```
 
-The resulting model provides a strong foundation for the upcoming **Football Data Analysis Phase**, where SQL will be used to extract performance insights and answer practical football analytics questions.
+This structure separates:
+
+* **Descriptive attributes** → Dimensions
+* **Numerical measurements** → Fact table
+
+This makes analytical queries easier to write and maintain.
+
+---
+
+# 🔍 Data Quality Decisions
+
+Several important data-quality decisions were made:
+
+### 1. Staging Layer
+
+The original dataset was preserved while cleaning was performed on:
+
+```text
+player_data_staging
+```
+
+### 2. Missing Values
+
+Empty statistical values were converted to zero where appropriate.
+
+### 3. Duplicate Detection
+
+Potential duplicate records were identified using `ROW_NUMBER()`.
+
+### 4. Standardized Countries
+
+A dedicated mapping table was created instead of repeatedly hard-coding country transformations.
+
+### 5. Standardized Positions
+
+Multiple position combinations were grouped into:
+
+```text
+MF
+DF
+FW
+```
+
+### 6. Player Identity
+
+A `PlayerID` was generated so the same player can be analyzed across different club records.
+
+---
+
+# 📈 Skills Demonstrated
+
+This project demonstrates practical skills in:
+
+* SQL Server
+* Data Cleaning
+* Data Transformation
+* Data Quality
+* Data Standardization
+* Relational Data Modeling
+* Star Schema Concepts
+* Fact and Dimension Design
+* SQL Views
+* CTEs
+* Window Functions
+* Ranking
+* Aggregation
+* Analytical SQL
+* Football Performance Analysis
+* Business Question Formulation
+* Data Storytelling
+
+---
+
+# 🚀 Future Improvements
+
+Possible future extensions include:
+
+* Player performance indexes
+* Goals per 90 minutes
+* Assists per 90 minutes
+* Goal contribution per 90 minutes
+* Club attacking efficiency
+* Competition comparison
+* Player efficiency rankings
+* Young-player performance analysis
+* Position-specific player rankings
+* Offensive vs defensive player profiles
+* Advanced player segmentation
+* Trend analysis
+* Power BI dashboard
+* Automated ETL pipeline
+* Additional football seasons for historical comparison
+
+---
+
+# 🏁 Conclusion
+
+This project demonstrates a complete SQL-based football analytics workflow starting from raw player statistics and progressing through:
+
+```text
+Raw Data
+   ↓
+Data Cleaning
+   ↓
+Data Standardization
+   ↓
+Player Identification
+   ↓
+Dimensional Modeling
+   ↓
+Exploration
+   ↓
+Magnitude Analysis
+   ↓
+Ranking Analysis
+   ↓
+Part-to-Whole Analysis
+   ↓
+Segmentation
+   ↓
+Football Insights
+```
+
+The project showcases how SQL can be used not only for querying data, but also for building a structured analytical workflow capable of supporting **player performance analysis, club analysis, competition analysis, and football-related decision making**.
+
+---
+
+## 👤 Author
+
+**Osama**
+
+Data Scientist & Data Analyst
+Faculty of Computers and Artificial Intelligence — Helwan University
+
+### Focus Areas
+
+* Data Analysis
+* SQL
+* Python
+* Excel
+* Power BI
+* Machine Learning
+* Sports Analytics
